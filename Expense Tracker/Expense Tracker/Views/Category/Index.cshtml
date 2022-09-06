@@ -28,8 +28,10 @@
 <script id="typeColumnTemplate" type="text/x-template">
     ${if(Type=="Income")}
         <span class="badge bg-success">${Type}</span>
+    ${else if(Type=="Investments")}
+        <span class="badge bg-primary">${Type}</span>
     ${else}
-        <span class="badge bg-danger">${Type}</span>
+    <span class="badge bg-danger">${Type}</span>
     ${/if}
 </script>
 

@@ -343,6 +343,10 @@ img.profile-pic {
     }
 
     .widget.balance > div:first-child {
+        color: darkorange;
+    }
+
+    .widget.investments > div:first-child {
         color: #2aa1ff;
     }
 

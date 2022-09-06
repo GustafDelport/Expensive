@@ -1,6 +1,7 @@
 ﻿using Expense_Tracker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.EJ2.Spreadsheet;
 using System.Globalization;
 
 namespace Expense_Tracker.Controllers
@@ -14,9 +15,12 @@ namespace Expense_Tracker.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            DateTime EndDate = DateTime.Today;
+            var now = DateTime.Now;
+            var DaysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+
+            DateTime EndDate = new DateTime(now.Year, now.Month, DaysInMonth);
             //DateTime StartDate = DateTime.Today.AddDays(-6);
-            DateTime StartDate = new DateTime(EndDate.Year, EndDate.Month, 1);
+            DateTime StartDate = new DateTime(now.Year, now.Month, 1);
 
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-ZA");
             culture.NumberFormat.CurrencyNegativePattern = 1;
@@ -43,6 +47,13 @@ namespace Expense_Tracker.Controllers
             //Balance
             int Balance = TotalIncome - TotalExpense;
             ViewBag.Balance = String.Format(culture, "{0:C0}",Balance);
+
+            //TotalExpense
+            int TotalInvestment = SelectedTransactions
+                .Where(i => i.Category.Type == "Investments")
+                .Sum(j => j.Amount);
+
+            ViewBag.TotalInvestment = String.Format(culture, "{0:C0}", TotalInvestment);
 
             //Chart Data
 
@@ -82,8 +93,18 @@ namespace Expense_Tracker.Controllers
                 })
                 .ToList();
 
+            List<SplineChartData> InvestmentSummary = SelectedTransactions
+                .Where(i => i.Category.Type == "Investments")
+                .GroupBy(j => j.Date)
+                .Select(k => new SplineChartData()
+                {
+                    day = k.First().Date.ToString("dd-MMM"),
+                    investment = k.Sum(l => l.Amount)
+                })
+                .ToList();
+
             //Combining SplineData
-            string[] LastDays = Enumerable.Range(0, 7)
+            string[] LastDays = Enumerable.Range(0, DaysInMonth)
                 .Select(i => StartDate.AddDays(i).ToString("dd-MMM"))
                 .ToArray();
 
@@ -92,11 +113,14 @@ namespace Expense_Tracker.Controllers
                                       from income in dayIncomeJoined.DefaultIfEmpty()
                                       join expense in ExpenseSummary on day equals expense.day into expenseJoined
                                       from expense in expenseJoined.DefaultIfEmpty()
+                                      join investment in InvestmentSummary on day equals investment.day into investmentJoined
+                                      from investment in investmentJoined.DefaultIfEmpty()
                                       select new
                                       {
                                           day = day,
                                           income = income==null ? 0 : income.income,
                                           expense = expense==null ? 0 : expense.expense,
+                                          investment = investment == null ? 0 : investment.investment,
                                       };
 
 
@@ -116,5 +140,6 @@ namespace Expense_Tracker.Controllers
         public string day;
         public int income;
         public int expense;
+        public int investment;
     }
 }
