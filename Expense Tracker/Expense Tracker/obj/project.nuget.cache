@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aUAaDspm2Nw3rXQqSC75ZCDX+Ev8XDStUf8YtT/O515QKn8xpjeGA2DKn9XsSZ9eF0P7fV7nd3NkMJa2iLwtOw==",
+  "dgSpecHash": "zVCFxPFwwMgw5nxhyIJUfmHdoXTkMJuFanQRI7BLaBZdmLkidgfKuAtxOQtFvAjV5zJXb+plOJfBZ/00hu6O4A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gustaf.delport\\OneDrive - Entelect Software (Pty) Ltd\\Documents\\Pet Projects\\Expense Tracker\\Expense Tracker\\Expense Tracker.csproj",
+  "projectFilePath": "C:\\Users\\gustaf.delport\\OneDrive - Entelect Software (Pty) Ltd\\Documents\\Pet Projects\\Expense Tracker\\Expensive\\Expense Tracker\\Expense Tracker\\Expense Tracker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gustaf.delport\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\gustaf.delport\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
